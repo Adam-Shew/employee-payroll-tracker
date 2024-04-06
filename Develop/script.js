@@ -1,53 +1,60 @@
 // Get a reference to the #add-employees-btn element
 const addEmployeesBtn = document.querySelector('#add-employees-btn');
+const userTable = document.querySelector('tbody');
+const userInfo = [];
 
-// let runningTotal = 0;
-// let averageSalary = 0;
-// let totalEmploye= 0;
+let runningTotal = 0;
+let averageSalary = 0;
 
 
 // Collect employee data
 const collectEmployees = function() {
-  // TODO: Get user input to create and return an array of employee objects
 
+  
   let firstName = prompt("Enter First Name");
   let lastName = prompt("Enter Last Name");
-  let salary = 0;
-  let salaryRate = prompt(salary);
+  let salaryRate = Number(prompt("Enter Salary", 0));
 
-  const userInfo = [firstName, lastName, salaryRate];
+  const newUser = {
+    first: firstName,
+    last: lastName,
+    salary: salaryRate,
+  }
 
-  //return an array of employee data
+  userInfo.push(newUser);
 
-  console.log(userInfo);
+  const again = confirm("Add Another Employee?")
+
+  if(again){
+    collectEmployees()
+  }
+
+  return userInfo;
 }
+
 
 // Display the average salary
 const displayAverageSalary = function(employeesArray) {
-  // TODO: Calculate and display the average salary
-  //math.function? might be as easy as (adding each element ie. array[i]/array.length)
 
-//   for(let i = 0; i<Array.length; i++){
-//     runningTotal + array[i];
-//   }
-//   averageSalary = runningTotal/array.length;
-// }
+  for(let i = 0; i < userInfo.length; i++){
+    runningTotal += userInfo[i].salary;
+  }
 
-// Select a random employee
-const getRandomEmployee = function(employeesArray) {
-  // TODO: Select and display a random employee
+  averageSalary = runningTotal / userInfo.length;
+
+  console.log(`The average employee salary is: ${averageSalary}`);
 }
 
 
 
+// Select a random employee
+const getRandomEmployee = function(employeesArray) {
+  let randomUser = Math.floor(Math.random()*userInfo.length);
+  let selectedUser = userInfo[randomUser].first;
 
+  console.log(`Congratulations, ${selectedUser}, you have been randomly selected to win a thing!`)
 
-
-
-
-
-
-
+}
 
 
 
@@ -82,11 +89,11 @@ const displayEmployees = function(employeesArray) {
     const newTableRow = document.createElement("tr");
 
     const firstNameCell = document.createElement("td");
-    firstNameCell.textContent = currentEmployee.firstName;
+    firstNameCell.textContent = currentEmployee.first;
     newTableRow.append(firstNameCell);
 
     const lastNameCell = document.createElement("td");
-    lastNameCell.textContent = currentEmployee.lastName;
+    lastNameCell.textContent = currentEmployee.last;
     newTableRow.append(lastNameCell);
 
     const salaryCell = document.createElement("td");
